@@ -2,9 +2,8 @@ import os
 from collections import Counter
 from time import time
 
-from video import getVideoDetails, videoToFrames
-
 from detector import detectGameTopK
+from video import getVideoDetails, videoToFrames
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CACHE_DIR = os.path.join(BASE_DIR, "cachedEmbeddings")
@@ -90,6 +89,7 @@ def detectVideo(path, referenceEmbeddings, startTime="00:00", endTime=None):
             continue
 
         predictions.append(result["prediction"])
+        print("Vote Strength: ", result["vote_strength"])
         allTopMatches.append(
             {
                 "frame": framePath,
