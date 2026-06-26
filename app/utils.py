@@ -130,6 +130,12 @@ def detectVideo(path, referenceEmbeddings, startTime="00:00", endTime=None):
 
     influentialFrames = [item["frame"] for item in topFrames]
 
+    by_frame_index = sorted(allTopMatches, key=lambda x: x["frame"])
+    total = len(by_frame_index)
+    embed_count = min(10, total)
+    diverse_indices = [int(total * i / embed_count) for i in range(embed_count)]
+    embeddingFrames = [by_frame_index[i]["frame"] for i in diverse_indices]
+
     print(f"\nDetected Game: {finalPrediction}\n")
 
     print("Confidence Breakdown:\n")
@@ -147,7 +153,7 @@ def detectVideo(path, referenceEmbeddings, startTime="00:00", endTime=None):
         "prediction": finalPrediction,
         "confidences": sortedConfidences,
         "influential_frames": influentialFrames,
-        "frames_for_embedding": [item["frame"] for item in sortedFrames[:10]],
+        "frames_for_embedding": embeddingFrames,
         "time_taken": processing_time,
     }
 
